@@ -5,10 +5,10 @@ RUN echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted
 && echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse" >> /etc/apt/sources.list \
 && echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-security main restricted universe multiverse" >> /etc/apt/sources.list \
 && echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
-&& echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse" >> /etc/apt/sources.list
+&& echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse" >> /etc/apt/sources.list 
 
 RUN apt-get update 
-RUN apt-get install -y vim git wget ssh iproute2 gpg
+RUN apt-get install -y vim git wget ssh iproute2 gpg python3-pip
 RUN sed -i '1s/^/PermitRootLogin yes\nPubkeyAuthentication yes\nPasswordAuthentication yes\n/' /etc/ssh/sshd_config
 RUN service ssh start
 
@@ -22,3 +22,8 @@ RUN echo \
     tee /etc/apt/sources.list.d/docker.list > /dev/null
 RUN apt-get update
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# python
+RUN echo "alias python=python3" >> /root/.bashrc
+RUN python -m venv pip_env
+RUN echo "alias pip=/root/pip_env/bin/pip" >> /root/.bashrc
